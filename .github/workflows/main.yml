@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Referral Card</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 400px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: all 0.5s ease;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotateY(0deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotateY(5deg);
+            }
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 5px solid white;
+            object-fit: cover;
+            margin: 0 auto 15px;
+            display: block;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .profile-pic:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .user-name {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .user-age {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .whatsapp-link {
+            display: inline-flex;
+            align-items: center;
+            background: #25D366;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .whatsapp-link:hover {
+            background: #128C7E;
+            transform: translateY(-2px);
+        }
+
+        .whatsapp-link i {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .stat-box {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .tier-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            background: gold;
+            color: #333;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7);
+            }
+
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 10px rgba(255, 215, 0, 0);
+            }
+
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
+            }
+        }
+
+        .referral-code {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .referral-code:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .referral-code-text {
+            font-family: monospace;
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+
+        .copy-icon {
+            font-size: 18px;
+            opacity: 0.8;
+        }
+
+        .copy-notification {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .referral-code.copied .copy-notification {
+            opacity: 1;
+        }
+
+        .app-link-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .app-link-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            background: linear-gradient(135deg, #fad0c4, #ff9a9e);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title i {
+            margin-right: 10px;
+            color: #764ba2;
+        }
+
+        .referral-list {
+            max-height: 200px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .referral-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            transition: all 0.3s ease;
+        }
+
+        .referral-item:hover {
+            background: #f9f9f9;
+            transform: translateX(5px);
+        }
+
+        .referral-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
+        .referral-details {
+            flex: 1;
+        }
+
+        .referral-name {
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+
+        .referral-date {
+            font-size: 12px;
+            color: #777;
+        }
+
+        .referral-status {
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Scrollbar styling */
+        .referral-list::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .referral-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .referral-list::-webkit-scrollbar-thumb {
+            background: #a777e3;
+            border-radius: 10px;
+        }
+
+        .referral-list::-webkit-scrollbar-thumb:hover {
+            background: #764ba2;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .card {
+                max-width: 100%;
+            }
+
+            .stats-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <div class="card-header">
+            <img src="https://i.ibb.co/RGRfHQ0s/peakpx.jpg" alt="Profile Picture" class="profile-pic">
+            <h2 class="user-name">rumisa tanveer</h2>
+            <p class="user-age">17 years</p>
+            <a href="https://wa.me/923001234567" class="whatsapp-link">
+                <i class="fab fa-whatsapp"></i> null
+            </a>
+
+            <div class="stats-container">
+                <div class="stat-box">
+                    <div class="stat-value">00</div>
+                    <div class="stat-label">Total Ref</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">00</div>
+                    <div class="stat-label">Active</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">00</div>
+                    <div class="stat-label">Inactive</div>
+                </div>
+            </div>
+
+            <div class="tier-badge">R1 Tier</div>
+
+            <div class="referral-code" id="referralCode">
+                <span class="referral-code-text">RUM12I9SA2</span>
+                <i class="fas fa-copy copy-icon"></i>
+                <span class="copy-notification">Copied!</span>
+            </div>
+
+            <a href="https://www.appcreator24.com/app3552961-1ub5fi" class="app-link-btn">
+                <i class="fas fa-download"></i> Download Our App
+            </a>
+        </div>
+
+        <div class="card-body">
+            <h3 class="section-title">
+                <i class="fas fa-history"></i> Referral History
+            </h3>
+<H1>NO HISTORY HERE</H1>
+            <!--div class="referral-list">
+                <div class="referral-item">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Referral" class="referral-avatar">
+                    <div class="referral-details">
+                        <div class="referral-name">Ali Ahmed</div>
+                        <div class="referral-date">Joined: 15 Jan 2023</div>
+                    </div>
+                    <span class="referral-status status-active">Active</span>
+                </div>
+
+                <div class="referral-item">
+                    <img src="https://randomuser.me/api/portraits/women/63.jpg" alt="Referral" class="referral-avatar">
+                    <div class="referral-details">
+                        <div class="referral-name">Fatima Riaz</div>
+                        <div class="referral-date">Joined: 22 Feb 2023</div>
+                    </div>
+                    <span class="referral-status status-active">Active</span>
+                </div>
+
+                <div class="referral-item">
+                    <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Referral" class="referral-avatar">
+                    <div class="referral-details">
+                        <div class="referral-name">Usman Malik</div>
+                        <div class="referral-date">Joined: 05 Mar 2023</div>
+                    </div>
+                    <span class="referral-status status-inactive">Inactive</span>
+                </div>
+
+                <div class="referral-item">
+                    <img src="https://randomuser.me/api/portraits/women/28.jpg" alt="Referral" class="referral-avatar">
+                    <div class="referral-details">
+                        <div class="referral-name">Sana Javed</div>
+                        <div class="referral-date">Joined: 18 Apr 2023</div>
+                    </div>
+                    <span class="referral-status status-active">Active</span>
+                </div>
+
+                <div class="referral-item">
+                    <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Referral" class="referral-avatar">
+                    <div class="referral-details">
+                        <div class="referral-name">Bilal Khan</div>
+                        <div class="referral-date">Joined: 30 May 2023</div>
+                    </div>
+                    <span class="referral-status status-inactive">Inactive</span>
+                </div>
+            </div>
+        </div>
+    </div-->
+
+    <script>
+        // Copy referral code functionality
+        const referralCode = document.getElementById('referralCode');
+
+        referralCode.addEventListener('click', () => {
+            const codeText = document.querySelector('.referral-code-text').textContent;
+
+            // Copy to clipboard
+            navigator.clipboard.writeText(codeText).then(() => {
+                // Show copied notification
+                referralCode.classList.add('copied');
+
+                // Remove after 2 seconds
+                setTimeout(() => {
+                    referralCode.classList.remove('copied');
+                }, 2000);
+            });
+        });
+
+        // Animate card on hover
+        const card = document.querySelector('.card');
+
+        card.addEventListener('mousemove', (e) => {
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+            card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        });
+
+        // Reset when not hovering
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'rotateY(0deg) rotateX(0deg)';
+        });
+    </script>
+</body>
+
+</html>
